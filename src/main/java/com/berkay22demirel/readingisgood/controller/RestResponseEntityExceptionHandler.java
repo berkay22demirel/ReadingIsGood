@@ -5,22 +5,34 @@ import com.berkay22demirel.readingisgood.exception.NotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
-public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler({NotFoundException.class})
-    public ResponseEntity<?> handleNotFoundExceptionException(NotFoundException e, WebRequest request) {
+    public ResponseEntity<?> handleNotFoundException(NotFoundException e, WebRequest request) {
         return new ResponseEntity<Object>(e.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({AuthorizationException.class})
-    public ResponseEntity<?> handleAuthorizationExceptionException(NotFoundException e, WebRequest request) {
+    public ResponseEntity<?> handleAuthorizationException(NotFoundException e, WebRequest request) {
         return new ResponseEntity<Object>(e.getMessage(), new HttpHeaders(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handle(MethodArgumentNotValidException exception) {
+        Map<String, String> validationErrors = new HashMap<>();
+        exception.getBindingResult().getFieldErrors().forEach(fieldError -> {
+            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        });
+        return ResponseEntity.badRequest().body(String.join("\n", validationErrors.values()));
     }
 
     @ExceptionHandler({Exception.class})
