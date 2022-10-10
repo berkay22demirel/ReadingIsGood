@@ -46,6 +46,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests((authorize) -> authorize
                         .antMatchers("/api/v1/auth/**").permitAll()
+                        .antMatchers("/h2-console").permitAll()
                         .anyRequest()
                         .authenticated()
                 );
