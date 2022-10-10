@@ -7,18 +7,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
-@RequestMapping("api/v1/book")
+@RequestMapping("api/v1/books")
 @RestController
 public class BookController {
 
     private final BookService bookService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreateBookRequest request) {
-        bookService.create(request.getName(), request.getAuthor(), request.getStockCount());
+    public ResponseEntity<?> create(@RequestBody @Valid CreateBookRequest request) {
+        bookService.create(request.getName(), request.getAuthor(), request.getStockCount(), request.getAmount());
         return new ResponseEntity<>("Book created successfully.", HttpStatus.OK);
     }
 

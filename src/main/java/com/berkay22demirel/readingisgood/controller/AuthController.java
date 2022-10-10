@@ -16,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
@@ -29,7 +31,7 @@ public class AuthController {
 
 
     @PostMapping
-    public ResponseEntity<AuthResponse> authenticateUser(@RequestBody AuthRequest request) {
+    public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid AuthRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtil.generateToken(authentication.getName());
@@ -37,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
         }
