@@ -46,10 +46,11 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests((authorize) -> authorize
                         .antMatchers("/api/v1/auth/**").permitAll()
-                        .antMatchers("/h2-console").permitAll()
+                        .antMatchers("/h2/**").permitAll()
                         .anyRequest()
                         .authenticated()
                 );
+        http.headers().frameOptions().disable();
         http.addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

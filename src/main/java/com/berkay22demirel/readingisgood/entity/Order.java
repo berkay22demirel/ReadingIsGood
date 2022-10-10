@@ -20,7 +20,7 @@ public class Order {
     private BigDecimal totalAmount;
 
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private List<BasketItem> basketItems;
 
     @OneToOne

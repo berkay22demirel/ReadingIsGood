@@ -1,4 +1,4 @@
-package com.berkay22demirel.readingisgood.controller;
+package com.berkay22demirel.readingisgood.config;
 
 import com.berkay22demirel.readingisgood.exception.AuthorizationException;
 import com.berkay22demirel.readingisgood.exception.NotFoundException;
