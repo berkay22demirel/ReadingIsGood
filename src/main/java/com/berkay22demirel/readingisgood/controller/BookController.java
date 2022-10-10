@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}/stock")
-    ResponseEntity<?> updateStock(@PathVariable @NotNull Long id, @RequestBody Long stockCount) {
+    public ResponseEntity<?> updateStock(@PathVariable @NotNull Long id, @RequestBody @NotNull @Min(0) Long stockCount) {
         bookService.updateStock(id, stockCount);
         return new ResponseEntity<>("Book stock updated successfully.", HttpStatus.OK);
     }

@@ -9,8 +9,8 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Table(name = "users")
-public class User implements UserDetails {
+@Table(name = "customer")
+public class Customer implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

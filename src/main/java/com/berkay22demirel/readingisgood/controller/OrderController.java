@@ -3,7 +3,7 @@ package com.berkay22demirel.readingisgood.controller;
 import com.berkay22demirel.readingisgood.controller.request.CreateOrderRequest;
 import com.berkay22demirel.readingisgood.controller.request.GetOrderByDateRequest;
 import com.berkay22demirel.readingisgood.dto.OrderDto;
-import com.berkay22demirel.readingisgood.entity.User;
+import com.berkay22demirel.readingisgood.entity.Customer;
 import com.berkay22demirel.readingisgood.security.JwtManager;
 import com.berkay22demirel.readingisgood.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
-@RequestMapping("api/v1/users/{userId}/orders")
+@RequestMapping("api/v1/orders")
 @RestController
 public class OrderController {
 
@@ -26,21 +26,19 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid CreateOrderRequest request, @PathVariable Long userId, HttpServletRequest httpServletRequest) {
-        User user = jwtManager.validateTokenByUserId(httpServletRequest, userId);
-        orderService.create(user, request.getBooks());
+    public ResponseEntity<?> create(@RequestBody @Valid CreateOrderRequest request, HttpServletRequest httpServletRequest) {
+        Customer customer = jwtManager.getCustomer(httpServletRequest);
+        orderService.create(customer, request.getBasketItems());
         return new ResponseEntity<>("Order created successfully.", HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> get(@PathVariable @NotNull Long id, @PathVariable Long userId, HttpServletRequest httpServletRequest) {
-        User user = jwtManager.validateTokenByUserId(httpServletRequest, userId);
-        return new ResponseEntity<>(orderService.get(id, user), HttpStatus.OK);
+    public ResponseEntity<OrderDto> getById(@PathVariable @NotNull Long id) {
+        return new ResponseEntity<>(orderService.getById(id), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<Page<OrderDto>> getByDate(@PathVariable Long userId, @NotNull final Pageable pageable, @RequestBody @Valid GetOrderByDateRequest request, HttpServletRequest httpServletRequest) {
-        User user = jwtManager.validateTokenByUserId(httpServletRequest, userId);
-        return new ResponseEntity<>(orderService.getByDate(pageable, request.getStartDate(), request.getEndDate(), user), HttpStatus.OK);
+    public ResponseEntity<Page<OrderDto>> getByDate(@NotNull final Pageable pageable, @RequestBody @Valid GetOrderByDateRequest request, HttpServletRequest httpServletRequest) {
+        return new ResponseEntity<>(orderService.getByDate(pageable, request.getStartDate(), request.getEndDate()), HttpStatus.OK);
     }
 }

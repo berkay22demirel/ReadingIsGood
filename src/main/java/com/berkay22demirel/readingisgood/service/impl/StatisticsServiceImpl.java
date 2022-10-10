@@ -1,8 +1,8 @@
 package com.berkay22demirel.readingisgood.service.impl;
 
 import com.berkay22demirel.readingisgood.dto.MonthlyStatisticsDto;
+import com.berkay22demirel.readingisgood.entity.Customer;
 import com.berkay22demirel.readingisgood.entity.Order;
-import com.berkay22demirel.readingisgood.entity.User;
 import com.berkay22demirel.readingisgood.repoitory.OrderRepository;
 import com.berkay22demirel.readingisgood.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final OrderRepository orderRepository;
 
     @Override
-    public List<MonthlyStatisticsDto> getMonthlyStatistics(User user) {
+    public List<MonthlyStatisticsDto> getMonthlyStatistics(Customer user) {
         return orderRepository
                 .findAll()
                 .stream()

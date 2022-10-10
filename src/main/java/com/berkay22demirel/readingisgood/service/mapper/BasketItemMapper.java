@@ -20,6 +20,7 @@ public class BasketItemMapper implements Mappable<BasketItem, BasketItemDto> {
         entity.setOrder(dto.getOrderId() != null ? orderRepository.getReferenceById(dto.getOrderId()) : null);
         entity.setAmount(dto.getAmount());
         entity.setBook(bookRepository.getReferenceById(dto.getBookId()));
+        entity.setCount(dto.getCount());
         return entity;
     }
 
@@ -29,6 +30,7 @@ public class BasketItemMapper implements Mappable<BasketItem, BasketItemDto> {
         dto.setOrderId(entity.getOrder().getId());
         dto.setAmount(entity.getAmount());
         dto.setBookId(entity.getBook().getId());
+        dto.setCount(entity.getCount());
         return dto;
     }
 }
