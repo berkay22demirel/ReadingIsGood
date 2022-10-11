@@ -2,6 +2,7 @@ package com.berkay22demirel.readingisgood.controller;
 
 import com.berkay22demirel.readingisgood.controller.request.CreateOrderRequest;
 import com.berkay22demirel.readingisgood.controller.request.GetOrderByDateRequest;
+import com.berkay22demirel.readingisgood.controller.response.Response;
 import com.berkay22demirel.readingisgood.dto.OrderDto;
 import com.berkay22demirel.readingisgood.entity.Customer;
 import com.berkay22demirel.readingisgood.security.JwtManager;
@@ -26,19 +27,21 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid CreateOrderRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Response> create(@RequestBody @Valid CreateOrderRequest request, HttpServletRequest httpServletRequest) {
         Customer customer = jwtManager.getCustomer(httpServletRequest);
         orderService.create(customer, request.getBasketItems());
-        return new ResponseEntity<>("Order created successfully.", HttpStatus.OK);
+        return new ResponseEntity<>(new Response("Order created successfully."), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> getById(@PathVariable @NotNull Long id) {
-        return new ResponseEntity<>(orderService.getById(id), HttpStatus.OK);
+    public ResponseEntity<Response> getById(@PathVariable @NotNull Long id) {
+        OrderDto order = orderService.getById(id);
+        return new ResponseEntity<>(new Response(order), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<Page<OrderDto>> getByDate(@NotNull final Pageable pageable, @RequestBody @Valid GetOrderByDateRequest request, HttpServletRequest httpServletRequest) {
-        return new ResponseEntity<>(orderService.getByDate(pageable, request.getStartDate(), request.getEndDate()), HttpStatus.OK);
+    public ResponseEntity<Response> getByDate(@NotNull final Pageable pageable, @RequestBody @Valid GetOrderByDateRequest request, HttpServletRequest httpServletRequest) {
+        Page<OrderDto> orders = orderService.getByDate(pageable, request.getStartDate(), request.getEndDate());
+        return new ResponseEntity<>(new Response(orders), HttpStatus.OK);
     }
 }

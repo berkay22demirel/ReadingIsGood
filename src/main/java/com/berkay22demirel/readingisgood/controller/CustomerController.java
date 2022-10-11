@@ -1,6 +1,7 @@
 package com.berkay22demirel.readingisgood.controller;
 
 import com.berkay22demirel.readingisgood.controller.request.CreateCustomerRequest;
+import com.berkay22demirel.readingisgood.controller.response.Response;
 import com.berkay22demirel.readingisgood.dto.OrderDto;
 import com.berkay22demirel.readingisgood.entity.Customer;
 import com.berkay22demirel.readingisgood.security.JwtManager;
@@ -25,15 +26,16 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid CreateCustomerRequest request) {
+    public ResponseEntity<Response> create(@RequestBody @Valid CreateCustomerRequest request) {
         customerService.create(request.getEmail(), request.getPassword());
-        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+        return new ResponseEntity<>(new Response("Customer created successfully."), HttpStatus.OK);
     }
 
     @GetMapping("/{customerId}/orders")
-    public ResponseEntity<Page<OrderDto>> getAllOrders(@PathVariable @NotNull Long customerId, @NotNull final Pageable pageable, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Response> getAllOrders(@PathVariable @NotNull Long customerId, @NotNull final Pageable pageable, HttpServletRequest httpServletRequest) {
         Customer customer = jwtManager.validateTokenByCustomerId(httpServletRequest, customerId);
-        return new ResponseEntity<>(customerService.getAllOrders(pageable, customer), HttpStatus.OK);
+        Page<OrderDto> orders = customerService.getAllOrders(pageable, customer);
+        return new ResponseEntity<>(new Response(orders), HttpStatus.OK);
 
     }
 }

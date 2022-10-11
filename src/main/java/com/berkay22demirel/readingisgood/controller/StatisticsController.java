@@ -1,5 +1,6 @@
 package com.berkay22demirel.readingisgood.controller;
 
+import com.berkay22demirel.readingisgood.controller.response.Response;
 import com.berkay22demirel.readingisgood.dto.MonthlyStatisticsDto;
 import com.berkay22demirel.readingisgood.entity.Customer;
 import com.berkay22demirel.readingisgood.security.JwtManager;
@@ -23,8 +24,9 @@ public class StatisticsController {
     private final StatisticsService statisticsService;
 
     @GetMapping("/monthly")
-    public ResponseEntity<List<MonthlyStatisticsDto>> getMonthlyStatistics(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Response> getMonthlyStatistics(HttpServletRequest httpServletRequest) {
         Customer user = jwtManager.getCustomer(httpServletRequest);
-        return new ResponseEntity<>(statisticsService.getMonthlyStatistics(user), HttpStatus.OK);
+        List<MonthlyStatisticsDto> monthlyStatisticsList = statisticsService.getMonthlyStatistics(user);
+        return new ResponseEntity<>(new Response(monthlyStatisticsList), HttpStatus.OK);
     }
 }

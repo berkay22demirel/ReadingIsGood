@@ -1,7 +1,7 @@
 package com.berkay22demirel.readingisgood.controller;
 
 import com.berkay22demirel.readingisgood.controller.request.AuthRequest;
-import com.berkay22demirel.readingisgood.controller.response.AuthResponse;
+import com.berkay22demirel.readingisgood.controller.response.Response;
 import com.berkay22demirel.readingisgood.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +24,10 @@ public class AuthController {
 
 
     @PostMapping
-    public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid AuthRequest request) {
+    public ResponseEntity<Response> authenticateUser(@RequestBody @Valid AuthRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtil.generateToken(authentication.getName());
-        return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(new Response("Token created successfully.", token));
     }
 }
