@@ -26,16 +26,16 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<Response> create(@RequestBody @Valid CreateCustomerRequest request) {
+    public ResponseEntity<Response<?>> create(@RequestBody @Valid CreateCustomerRequest request) {
         customerService.create(request.getEmail(), request.getPassword());
-        return new ResponseEntity<>(new Response("Customer created successfully."), HttpStatus.OK);
+        return new ResponseEntity<>(new Response<>("Customer created successfully."), HttpStatus.OK);
     }
 
     @GetMapping("/{customerId}/orders")
-    public ResponseEntity<Response> getAllOrders(@PathVariable @NotNull Long customerId, @NotNull final Pageable pageable, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Response<Page<OrderDto>>> getAllOrders(@PathVariable @NotNull Long customerId, @NotNull final Pageable pageable, HttpServletRequest httpServletRequest) {
         Customer customer = jwtManager.validateTokenByCustomerId(httpServletRequest, customerId);
         Page<OrderDto> orders = customerService.getAllOrders(pageable, customer);
-        return new ResponseEntity<>(new Response(orders), HttpStatus.OK);
+        return new ResponseEntity<>(new Response<>(orders), HttpStatus.OK);
 
     }
 }

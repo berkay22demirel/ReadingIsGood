@@ -24,10 +24,10 @@ public class AuthController {
 
 
     @PostMapping
-    public ResponseEntity<Response> authenticateUser(@RequestBody @Valid AuthRequest request) {
+    public ResponseEntity<Response<?>> authenticateUser(@RequestBody @Valid AuthRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtil.generateToken(authentication.getName());
-        return ResponseEntity.ok(new Response("Token created successfully.", token));
+        return ResponseEntity.ok(new Response<>("Token created successfully.", token));
     }
 }

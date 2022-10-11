@@ -24,9 +24,9 @@ public class StatisticsController {
     private final StatisticsService statisticsService;
 
     @GetMapping("/monthly")
-    public ResponseEntity<Response> getMonthlyStatistics(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Response<List<MonthlyStatisticsDto>>> getMonthlyStatistics(HttpServletRequest httpServletRequest) {
         Customer user = jwtManager.getCustomer(httpServletRequest);
         List<MonthlyStatisticsDto> monthlyStatisticsList = statisticsService.getMonthlyStatistics(user);
-        return new ResponseEntity<>(new Response(monthlyStatisticsList), HttpStatus.OK);
+        return new ResponseEntity<>(new Response<>(monthlyStatisticsList), HttpStatus.OK);
     }
 }

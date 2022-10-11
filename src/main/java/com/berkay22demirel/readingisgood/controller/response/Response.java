@@ -9,12 +9,11 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-public class Response {
-
-    private String status;
+public class Response<T> {
+    
     private String responseMessage;
     private Map<String, String> validationErrors;
-    private Object data;
+    private T data;
     private long systemTime = new Date().getTime();
 
     public Response(String responseMessage) {
@@ -26,12 +25,12 @@ public class Response {
         this.validationErrors = validationErrors;
     }
 
-    public Response(String responseMessage, Object data) {
+    public Response(String responseMessage, T data) {
         this.responseMessage = responseMessage;
         this.data = data;
     }
 
-    public Response(Object data) {
+    public Response(T data) {
         this.data = data;
     }
 }

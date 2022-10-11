@@ -20,14 +20,14 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping
-    public ResponseEntity<Response> create(@RequestBody @Valid CreateBookRequest request) {
+    public ResponseEntity<Response<?>> create(@RequestBody @Valid CreateBookRequest request) {
         bookService.create(request.getName(), request.getAuthor(), request.getStockCount(), request.getAmount());
-        return new ResponseEntity<>(new Response("Book created successfully."), HttpStatus.OK);
+        return new ResponseEntity<>(new Response<>("Book created successfully."), HttpStatus.OK);
     }
 
     @PutMapping("/{id}/stock")
-    public ResponseEntity<Response> updateStock(@PathVariable @NotNull Long id, @RequestBody @NotNull @Min(0) Long stockCount) {
+    public ResponseEntity<Response<?>> updateStock(@PathVariable @NotNull Long id, @RequestBody @NotNull @Min(0) Long stockCount) {
         bookService.updateStock(id, stockCount);
-        return new ResponseEntity<>(new Response("Book stock updated successfully."), HttpStatus.OK);
+        return new ResponseEntity<>(new Response<>("Book stock updated successfully."), HttpStatus.OK);
     }
 }

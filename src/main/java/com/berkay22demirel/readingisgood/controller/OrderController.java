@@ -27,21 +27,21 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Response> create(@RequestBody @Valid CreateOrderRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Response<?>> create(@RequestBody @Valid CreateOrderRequest request, HttpServletRequest httpServletRequest) {
         Customer customer = jwtManager.getCustomer(httpServletRequest);
         orderService.create(customer, request.getBasketItems());
-        return new ResponseEntity<>(new Response("Order created successfully."), HttpStatus.OK);
+        return new ResponseEntity<>(new Response<>("Order created successfully."), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> getById(@PathVariable @NotNull Long id) {
+    public ResponseEntity<Response<OrderDto>> getById(@PathVariable @NotNull Long id) {
         OrderDto order = orderService.getById(id);
-        return new ResponseEntity<>(new Response(order), HttpStatus.OK);
+        return new ResponseEntity<>(new Response<>(order), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<Response> getByDate(@NotNull final Pageable pageable, @RequestBody @Valid GetOrderByDateRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Response<Page<OrderDto>>> getByDate(@NotNull final Pageable pageable, @RequestBody @Valid GetOrderByDateRequest request, HttpServletRequest httpServletRequest) {
         Page<OrderDto> orders = orderService.getByDate(pageable, request.getStartDate(), request.getEndDate());
-        return new ResponseEntity<>(new Response(orders), HttpStatus.OK);
+        return new ResponseEntity<>(new Response<>(orders), HttpStatus.OK);
     }
 }

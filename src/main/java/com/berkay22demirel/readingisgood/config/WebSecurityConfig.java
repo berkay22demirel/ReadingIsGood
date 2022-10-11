@@ -48,6 +48,10 @@ public class WebSecurityConfig {
                 .authorizeRequests((authorize) -> authorize
                         .antMatchers("/api/v1/auth/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/api/v1/customers").permitAll()
+                        .antMatchers("/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/v2/api-docs/**",
+                                "/swagger-resources/**").permitAll()
                         .antMatchers("/h2/**").permitAll()
                         .anyRequest()
                         .authenticated()
@@ -58,8 +62,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }
