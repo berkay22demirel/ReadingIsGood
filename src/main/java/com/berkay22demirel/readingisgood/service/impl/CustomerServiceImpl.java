@@ -7,11 +7,13 @@ import com.berkay22demirel.readingisgood.repoitory.CustomerRepository;
 import com.berkay22demirel.readingisgood.service.CustomerService;
 import com.berkay22demirel.readingisgood.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -29,6 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setEmail(email);
         customer.setPassword(passwordEncoder.encode(password));
         customerRepository.save(customer);
+        log.info("Created customer. Customer Email : {}", email);
     }
 
     @Override

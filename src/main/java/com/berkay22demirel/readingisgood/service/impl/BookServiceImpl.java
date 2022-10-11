@@ -6,6 +6,7 @@ import com.berkay22demirel.readingisgood.exception.NotFoundException;
 import com.berkay22demirel.readingisgood.repoitory.BookRepository;
 import com.berkay22demirel.readingisgood.service.BookService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
@@ -28,6 +30,7 @@ public class BookServiceImpl implements BookService {
         book.setStockCount(stockCount);
         book.setAmount(amount);
         bookRepository.save(book);
+        log.info("Created book. Book name : {}", name);
     }
 
     @Override
@@ -40,6 +43,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Book not found!"));
         book.setStockCount(stockCount);
         bookRepository.save(book);
+        log.info("Updated stock for book id : {}, new stock : {}", id, stockCount);
     }
 
     @Retryable(value = OptimisticLockException.class)
@@ -52,6 +56,7 @@ public class BookServiceImpl implements BookService {
         }
         book.setStockCount(lastStock);
         bookRepository.save(book);
+        log.info("Decreased stock for book id : {}, new stock : {}, purchased count : {}", id, book.getStockCount(), purchasedCount);
     }
 
     @Override

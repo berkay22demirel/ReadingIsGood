@@ -12,6 +12,7 @@ import com.berkay22demirel.readingisgood.service.BookService;
 import com.berkay22demirel.readingisgood.service.OrderService;
 import com.berkay22demirel.readingisgood.service.mapper.Mappable;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -50,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
         requestBasketItems.forEach(requestBasketItem -> {
             bookService.decreaseStock(requestBasketItem.getBookId(), requestBasketItem.getCount());
         });
+        log.info("Created order for customer email : {} and order id {}", customer.getEmail(), order.getId());
     }
 
     @Override

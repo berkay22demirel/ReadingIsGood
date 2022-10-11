@@ -9,17 +9,18 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Table(name = "customer")
+@Table(name = "customers")
 public class Customer implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false, length = 50, unique = true)
     private String email;
+
     @Column(nullable = false, length = 64)
     private String password;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

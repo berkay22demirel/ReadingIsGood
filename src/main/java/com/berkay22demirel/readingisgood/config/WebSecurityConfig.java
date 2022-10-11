@@ -5,6 +5,7 @@ import com.berkay22demirel.readingisgood.security.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -46,6 +47,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests((authorize) -> authorize
                         .antMatchers("/api/v1/auth/**").permitAll()
+                        .antMatchers(HttpMethod.POST, "/api/v1/customers").permitAll()
                         .antMatchers("/h2/**").permitAll()
                         .anyRequest()
                         .authenticated()
