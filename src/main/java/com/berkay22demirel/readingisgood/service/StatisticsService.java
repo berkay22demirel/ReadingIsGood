@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface StatisticsService {
 
-    List<MonthlyStatisticsDto> getMonthlyStatistics(Customer user);
+    List<MonthlyStatisticsDto> getMonthlyStatistics(Customer customer);
 }

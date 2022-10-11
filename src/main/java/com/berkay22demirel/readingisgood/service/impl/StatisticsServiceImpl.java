@@ -1,6 +1,7 @@
 package com.berkay22demirel.readingisgood.service.impl;
 
 import com.berkay22demirel.readingisgood.dto.MonthlyStatisticsDto;
+import com.berkay22demirel.readingisgood.entity.BasketItem;
 import com.berkay22demirel.readingisgood.entity.Customer;
 import com.berkay22demirel.readingisgood.entity.Order;
 import com.berkay22demirel.readingisgood.repoitory.OrderRepository;
@@ -20,9 +21,9 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final OrderRepository orderRepository;
 
     @Override
-    public List<MonthlyStatisticsDto> getMonthlyStatistics(Customer user) {
+    public List<MonthlyStatisticsDto> getMonthlyStatistics(Customer customer) {
         return orderRepository
-                .findAll()
+                .findByCustomer(customer)
                 .stream()
                 .collect(Collectors.groupingBy(order -> new SimpleDateFormat("yyyy-MM")
                         .format(order.getDate())))
@@ -32,7 +33,7 @@ public class StatisticsServiceImpl implements StatisticsService {
                     MonthlyStatisticsDto dto = new MonthlyStatisticsDto();
                     dto.setMonth(entry.getKey());
                     dto.setTotalPurchasedAmount(entry.getValue().stream().map(Order::getTotalAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
-                    dto.setTotalBookCount(entry.getValue().stream().mapToLong(order -> order.getBasketItems().size()).sum());
+                    dto.setTotalBookCount(entry.getValue().stream().mapToLong(order -> order.getBasketItems().stream().mapToLong(BasketItem::getCount).sum()).sum());
                     dto.setTotalOrderCount((long) entry.getValue().size());
                     return dto;
                 })
