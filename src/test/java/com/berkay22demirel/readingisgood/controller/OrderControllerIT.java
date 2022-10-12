@@ -231,7 +231,7 @@ public class OrderControllerIT extends BaseIT {
         request.setEndDate(null);
 
         //when
-        ResponseEntity<Response> responseEntity = testRestTemplate.exchange("/api/v1/orders/reporting/getbydate", HttpMethod.POST, new HttpEntity<>(request, createHttpHeaders(jwtUtil)), Response.class);
+        ResponseEntity<Response> responseEntity = testRestTemplate.exchange("/api/v1/orders/getbydate", HttpMethod.POST, new HttpEntity<>(request, createHttpHeaders(jwtUtil)), Response.class);
 
         //then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
