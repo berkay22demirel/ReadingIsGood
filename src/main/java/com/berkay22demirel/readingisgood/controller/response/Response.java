@@ -10,7 +10,7 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class Response<T> {
-    
+
     private String responseMessage;
     private Map<String, String> validationErrors;
     private T data;
@@ -32,5 +32,8 @@ public class Response<T> {
 
     public Response(T data) {
         this.data = data;
+    }
+
+    public Response() {
     }
 }

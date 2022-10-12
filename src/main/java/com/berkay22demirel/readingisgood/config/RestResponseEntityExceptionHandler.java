@@ -8,6 +8,7 @@ import com.berkay22demirel.readingisgood.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,6 +43,11 @@ public class RestResponseEntityExceptionHandler {
     public ResponseEntity<Response> handleBusinessException(BusinessException e, HttpServletRequest request) {
         log.error("An business error occurred when processing url: {} error message: {}", request.getRequestURL(), e.getMessage(), e);
         return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({BadCredentialsException.class})
+    public ResponseEntity<Response> handleBadCredentialsException(BadCredentialsException e, HttpServletRequest request) {
+        return new ResponseEntity<>(new Response("Email or password is incorrect!"), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

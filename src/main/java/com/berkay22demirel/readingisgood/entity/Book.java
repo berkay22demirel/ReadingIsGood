@@ -15,7 +15,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false, length = 64)
     private String name;
 
@@ -27,7 +27,7 @@ public class Book {
     private BigDecimal amount;
 
     @Min(0)
-    @Column(nullable = false)
+    @Column(name = "stock_count", nullable = false)
     private Long stockCount;
 
     @Version

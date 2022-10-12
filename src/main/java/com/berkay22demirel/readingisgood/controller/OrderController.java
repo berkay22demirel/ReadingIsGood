@@ -10,6 +10,7 @@ import com.berkay22demirel.readingisgood.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +40,8 @@ public class OrderController {
         return new ResponseEntity<>(new Response<>(order), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<Response<Page<OrderDto>>> getByDate(@NotNull final Pageable pageable, @RequestBody @Valid GetOrderByDateRequest request, HttpServletRequest httpServletRequest) {
+    @PostMapping("/getbydate")
+    public ResponseEntity<Response<Page<OrderDto>>> getByDate(@RequestBody @Valid GetOrderByDateRequest request, @PageableDefault(size = 25, value = 0) final Pageable pageable) {
         Page<OrderDto> orders = orderService.getByDate(pageable, request.getStartDate(), request.getEndDate());
         return new ResponseEntity<>(new Response<>(orders), HttpStatus.OK);
     }

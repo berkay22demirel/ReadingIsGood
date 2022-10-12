@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-@Table(name = "basketItems")
+@Table(name = "basket_items")
 public class BasketItem {
 
     @Id

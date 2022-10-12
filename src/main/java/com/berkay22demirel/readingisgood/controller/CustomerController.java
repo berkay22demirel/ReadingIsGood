@@ -9,6 +9,7 @@ import com.berkay22demirel.readingisgood.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/orders")
-    public ResponseEntity<Response<Page<OrderDto>>> getAllOrders(@PathVariable @NotNull Long customerId, @NotNull final Pageable pageable, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Response<Page<OrderDto>>> getAllOrders(@PathVariable @NotNull Long customerId, @PageableDefault(size = 25, value = 0) final Pageable pageable, HttpServletRequest httpServletRequest) {
         Customer customer = jwtManager.validateTokenByCustomerId(httpServletRequest, customerId);
         Page<OrderDto> orders = customerService.getAllOrders(pageable, customer);
         return new ResponseEntity<>(new Response<>(orders), HttpStatus.OK);

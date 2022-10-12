@@ -13,9 +13,9 @@ public class AuthRequest {
     @NotNull
     @Email
     @Length(min = 8, max = 50)
-    private final String email;
+    private String email;
 
     @NotNull
     @Length(min = 8, max = 64)
-    private final String password;
+    private String password;
 }

@@ -19,7 +19,7 @@ public class Order {
     private Long id;
 
     @DecimalMin(value = "1.0")
-    @Column(nullable = false)
+    @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
 
     @NotEmpty
