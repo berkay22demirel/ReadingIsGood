@@ -1,0 +1,8 @@
+version: '3'
+services:
+  reading-is-good:
+    container_name: reading-is-good
+    build: .
+    image: reading-is-good:latest
+    ports:
+      - "8080:8080"
