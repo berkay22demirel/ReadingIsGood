@@ -41,6 +41,10 @@ You can start the project with docker.
 ## DATABASE
 
     You can use the H2-Console for exploring the database under http://localhost:8080/h2
+    
+## SWAGGER
+
+    You can use the Swagger for APIs under http://localhost:8080/swagger-ui/
 
 ## CUSTOMER
 
