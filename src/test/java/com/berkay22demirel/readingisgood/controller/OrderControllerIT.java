@@ -49,22 +49,6 @@ public class OrderControllerIT extends BaseIT {
     }
 
     @Test
-    public void should_return_basket_item_null_validation_error_when_basket_item_list_is_null() {
-        //given
-        CreateOrderRequest request = new CreateOrderRequest();
-        request.setBasketItems(null);
-
-        //when
-        ResponseEntity<Response> responseEntity = testRestTemplate.exchange("/api/v1/orders", HttpMethod.POST, new HttpEntity<>(request, createHttpHeaders(jwtUtil)), Response.class);
-
-        //then
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        assertThat(responseEntity.getBody()).isNotNull();
-        assertThat(responseEntity.getBody().getResponseMessage()).isEqualTo("Method argument not valid!");
-        assertThat(responseEntity.getBody().getValidationErrors().get("basketItems")).isEqualTo("must not be empty");
-    }
-
-    @Test
     public void should_return_basket_item_empty_validation_error_when_basket_item_list_is_null() {
         //given
         CreateOrderRequest request = new CreateOrderRequest();
