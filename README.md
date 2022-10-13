@@ -35,6 +35,7 @@ ReadingIsGood is an online books retail firm which operates only on the Internet
 
 You can start the project with docker.
 
+    mvn clean package
     docker compose up reading-is-good
     
 ## DATABASE
