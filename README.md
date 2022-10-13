@@ -47,7 +47,7 @@ You can start the project with docker.
 
 ## AUTH
 
-    You can use the auth api for creating jwt token. '/api/v1/auth'
+    You can use the auth api with customer info for creating jwt token. '/api/v1/auth'
     You must add jwt token for all request.
 
 
