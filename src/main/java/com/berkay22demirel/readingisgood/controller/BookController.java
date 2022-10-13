@@ -1,6 +1,7 @@
 package com.berkay22demirel.readingisgood.controller;
 
 import com.berkay22demirel.readingisgood.controller.request.CreateBookRequest;
+import com.berkay22demirel.readingisgood.controller.request.UpdateBookStockRequest;
 import com.berkay22demirel.readingisgood.controller.response.Response;
 import com.berkay22demirel.readingisgood.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
@@ -26,8 +26,8 @@ public class BookController {
     }
 
     @PutMapping("/{id}/stock")
-    public ResponseEntity<Response<?>> updateStock(@PathVariable @NotNull Long id, @RequestBody @NotNull @Min(0) Long stockCount) {
-        bookService.updateStock(id, stockCount);
+    public ResponseEntity<Response<?>> updateStock(@RequestBody @Valid UpdateBookStockRequest request, @PathVariable @NotNull Long id) {
+        bookService.updateStock(id, request.getStockCount());
         return new ResponseEntity<>(new Response<>("Book stock updated successfully."), HttpStatus.OK);
     }
 }

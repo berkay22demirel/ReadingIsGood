@@ -1,6 +1,7 @@
 package com.berkay22demirel.readingisgood.controller;
 
 import com.berkay22demirel.readingisgood.controller.request.CreateBookRequest;
+import com.berkay22demirel.readingisgood.controller.request.UpdateBookStockRequest;
 import com.berkay22demirel.readingisgood.controller.response.Response;
 import com.berkay22demirel.readingisgood.security.JwtUtil;
 import org.junit.Test;
@@ -160,9 +161,11 @@ public class BookControllerIT extends BaseIT {
     @Test
     public void should_update_stock() {
         //given
+        UpdateBookStockRequest request = new UpdateBookStockRequest();
+        request.setStockCount(5L);
 
         //when
-        ResponseEntity<Response> responseEntity = testRestTemplate.exchange("/api/v1/books/100/stock", HttpMethod.PUT, new HttpEntity<>(5L, createHttpHeaders(jwtUtil)), Response.class);
+        ResponseEntity<Response> responseEntity = testRestTemplate.exchange("/api/v1/books/100/stock", HttpMethod.PUT, new HttpEntity<>(request, createHttpHeaders(jwtUtil)), Response.class);
 
         //then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
