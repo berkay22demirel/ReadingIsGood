@@ -1,17 +1,17 @@
-#ReadingIsGood
+# ReadingIsGood
 
-##INTRODUCTION
+## INTRODUCTION
 
 ReadingIsGood is an online books retail firm which operates only on the Internet. Main target of ReadingIsGood is to deliver books from its one centralized warehouse to their customers within the same day. That is why stock consistency is the first priority for their vision operations.
 
-##REQUIREMENTS
+## REQUIREMENTS
 
     JDK version 11
     Spring Boot version 2.7.4
     Maven version 3.6.3 
     
     
-##TECH STACK
+## TECH STACK
 
     Java
     Spring Boot
@@ -31,27 +31,27 @@ ReadingIsGood is an online books retail firm which operates only on the Internet
     Docker
 
 
-##RUN USING DOCKER
+## RUN USING DOCKER
 
 You can start the project with docker.
 
     docker compose up reading-is-good
     
-##Database
+## DATABASE
 
     You can use the H2-Console for exploring the database under http://localhost:8080/h2
 
-##Customer
+## CUSTOMER
 
     You can use the customer api for creating customer. 'api/v1/customers'
 
-##Auth
+## AUTH
 
     You can use the auth api for creating jwt token. '/api/v1/auth'
     You must add jwt token for all request.
 
 
-##RUN TEST
+## RUN TEST
   
     If you want to run tests all together, you can use the commands below
     
